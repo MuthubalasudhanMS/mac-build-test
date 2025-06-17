@@ -20,6 +20,7 @@ exports.default = async function notarizeApp(context) {
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
     ascProvider: process.env.ASC_PROVIDER,
+    teamId: process.env.APPLE_TEAM_ID,
   });
 
   console.log(`Done notarizing ${appName}.app`);
