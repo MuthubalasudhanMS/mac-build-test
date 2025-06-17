@@ -44,8 +44,9 @@
       "category": "public.app-category.utilities",
       "hardenedRuntime": true,
       "gatekeeperAssess": false,
-      "entitlements": "entitlements.mac.plist",
-      "entitlementsInherit": "entitlements.mac.plist"
+      "entitlements": "./entitlements.mac.plist",
+      "entitlementsInherit": "./entitlements.mac.plist",
+      "identity": "Vimalraj (KZU7TTFTCD)"
     },
     "afterSign": "./scripts/notarize.js"
   },

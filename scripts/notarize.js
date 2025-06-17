@@ -2,8 +2,10 @@ require('dotenv').config();
 const { notarize } = require('@electron/notarize');
 
 exports.default = async function notarizeApp(context) {
-  const { appOutDir } = context;
+  const { electronPlatformName, appOutDir } = context;
   const appName = context.packager.appInfo.productFilename;
+  
+  if (electronPlatformName !== 'darwin') return;
 
   if (!process.env.APPLE_ID || !process.env.APPLE_ID_PASS || !process.env.ASC_PROVIDER) {
     console.warn("Missing Apple notarization credentials. Skipping notarization.");
@@ -13,7 +15,7 @@ exports.default = async function notarizeApp(context) {
   console.log(`Notarizing ${appName}.app`);
 
   await notarize({
-    appBundleId: 'com.example.app', // replace with your app's bundle ID
+    appBundleId: 'com.example.localupdate', 
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLE_ID,
     appleIdPassword: process.env.APPLE_ID_PASS,

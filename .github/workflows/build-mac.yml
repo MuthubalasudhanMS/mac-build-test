@@ -21,17 +21,26 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Set up Code Signing
+      - name: Decode Signing Certificate
         run: |
-          echo "APPLE_ID=$APPLE_ID" >> $GITHUB_ENV
-          echo "APPLE_ID_PASS=$APPLE_ID_PASS" >> $GITHUB_ENV
-          echo "ASC_PROVIDER=$ASC_PROVIDER" >> $GITHUB_ENV
+          echo "${CERT_P12}" | base64 --decode > certificate.p12
         env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
-          ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
+          CERT_P12: ${{ secrets.CERT_P12 }}
 
-      - name: Build & Publish to GitHub Releases
+      - name: Import Certificate into Keychain
+        run: |
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "$CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
+        env:
+          CERT_PASSWORD: ${{ secrets.CERT_PASSWORD }}
+
+      - name: Build and Notarize macOS App
         run: npm run dist-mac
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+          ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
