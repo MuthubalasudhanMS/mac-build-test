@@ -1,0 +1,37 @@
+name: Build and Release Mac
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set up Code Signing
+        run: |
+          echo "APPLE_ID=$APPLE_ID" >> $GITHUB_ENV
+          echo "APPLE_ID_PASS=$APPLE_ID_PASS" >> $GITHUB_ENV
+          echo "ASC_PROVIDER=$ASC_PROVIDER" >> $GITHUB_ENV
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
+          ASC_PROVIDER: ${{ secrets.ASC_PROVIDER }}
+
+      - name: Build & Publish to GitHub Releases
+        run: npm run dist-mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Electron App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #fdfbfb, #ebedee);
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .tabs {
+      display: flex;
+      background-color: #f7f9fc;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      color: #666;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .tab:hover {
+      background-color: #e8f5fe;
+      color: #333;
+    }
+
+    .tab.active {
+      background-color: #ffffff;
+      color: #007acc;
+      border-bottom: 3px solid #4dd0e1;
+    }
+
+    .tab i {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .tab-content {
+      padding: 2rem;
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .search-bar {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-bar input[type="text"] {
+      flex: 1;
+      padding: 0.6rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .search-bar button {
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      background-color: #4dd0e1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-bar button:hover {
+      background-color: #26c6da;
+    }
+
+    .status {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: #e0f7fa;
+      border-left: 4px solid #00acc1;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .search-bar {
+        flex-direction: column;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tab {
+        border-bottom: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <div class="tab active" data-tab="home"><i class="fas fa-house-user"></i>Home</div>
+      <div class="tab" data-tab="about"><i class="fas fa-info-circle"></i>About</div>
+      <div class="tab" data-tab="changelog"><i class="fas fa-list-ul"></i>Version Log</div>
+    </div>
+
+    <div class="tab-content active" id="home">
+      <h1>👋 Welcome to NEO Browser App 👋</h1>
+      <h2>Version <span id="version">Loading...</span></h2>
+      <p>This application will automatically check for updates.</p>
+
+      <div class="search-bar">
+        <input type="text" id="urlInput" placeholder="Enter URL or search term..." />
+        <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+      </div>
+
+      <div class="status" id="updateStatus">🔄 Checking for updates...</div>
+    </div>
+
+    <div class="tab-content" id="about">
+      <h2>📦 About This App</h2>
+      <p>This Electron application demonstrates auto-updating, modular UI, and friendly design using modern HTML, CSS, and JavaScript techniques.</p>
+      <p>Built with ❤️ for desktop environments.</p>
+    </div>
+
+    <div class="tab-content" id="changelog">
+      <h2>📝 Changelog</h2>
+      <ul>
+        <li><strong>v1.0.3</strong> – Few Bugs and Issues Resolved.</li>
+        <li><strong>v1.0.2</strong> – UI enhancements, icons, animations, and responsive layout.</li>
+        <li><strong>v1.0.1</strong> – Added tab support and improved styling.</li>
+        <li><strong>v1.0.0</strong> – Initial release with auto-update support.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 My Electron App</div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+      const version = document.getElementById('version');
+      if (version && window.versions?.app) {
+        const appVersion = await window.versions.app();
+        version.textContent = appVersion;
+      }
+
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          contents.forEach(c => c.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

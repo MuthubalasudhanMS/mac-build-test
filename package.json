@@ -1,0 +1,61 @@
+{
+  "name": "my-electron-app",
+  "version": "1.0.3",
+  "description": "My Electron app with auto-updates",
+  "author": {
+    "name": "Muthu Bala Sudhan M",
+    "email": "you@example.com"
+  },
+  "homepage": "https://yourwebsite.com",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder -w -l",
+    "dist-win": "electron-builder --win --x64",
+    "dist-linux": "electron-builder --linux",
+    "dist-mac": "electron-builder --mac"
+  },
+  "build": {
+    "appId": "com.example.localupdate",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "MuthubalasudhanMS",
+        "repo": "mac-build-test",
+        "private": true,
+        "releaseType": "release"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "category": "Utility",
+      "maintainer": "Muthu Bala Sudhan M <you@example.com>",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist",
+      "identity": "Developer ID Application: Your Company (TEAMID)"
+    },
+    "afterSign": "scripts/notarize.js"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.1.2",
+    "electron-log": "^5.4.1",
+    "electron-updater": "^6.1.1"
+  },
+  "devDependencies": {
+    "@electron/notarize": "^2.5.0",
+    "electron": "^28.2.2",
+    "electron-builder": "^24.13.3"
+  }
+}

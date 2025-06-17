@@ -1,0 +1,18 @@
+# Ignore build artifacts
+dist/
+out/
+*.AppImage
+*.deb
+*.exe
+*.dmg
+
+# Ignore node modules
+node_modules/
+
+# Ignore logs and system files
+logs/
+*.log
+.DS_Store
+
+# Optional: prevent lock files from being tracked
+package-lock.json
