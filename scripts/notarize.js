@@ -7,7 +7,7 @@ exports.default = async function notarizeApp(context) {
   
   if (electronPlatformName !== 'darwin') return;
 
-  if (!process.env.APPLE_ID || !process.env.APPLE_ID_PASS || !process.env.ASC_PROVIDER) {
+  if (!process.env.APPLE_ID || !process.env.APPLE_APP_SPECIFIC_PASSWORD || !process.env.ASC_PROVIDER) {
     console.warn("Missing Apple notarization credentials. Skipping notarization.");
     return;
   }
@@ -18,7 +18,7 @@ exports.default = async function notarizeApp(context) {
     appBundleId: 'com.example.localupdate', 
     appPath: `${appOutDir}/${appName}.app`,
     appleId: process.env.APPLE_ID,
-    appleIdPassword: process.env.APPLE_ID_PASS,
+    appleIdPassword: process.env.APPLE_APP_SPECIFIC_PASSWORD,
     ascProvider: process.env.ASC_PROVIDER,
   });
 
