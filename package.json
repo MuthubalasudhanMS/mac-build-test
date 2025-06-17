@@ -44,7 +44,7 @@
       "gatekeeperAssess": false,
       "entitlements": "entitlements.mac.plist",
       "entitlementsInherit": "entitlements.mac.plist",
-      "identity": "Developer ID Application: Your Company (TEAMID)"
+      "identity": "KZU7TTFTCD"
     },
     "afterSign": "scripts/notarize.js"
   },
