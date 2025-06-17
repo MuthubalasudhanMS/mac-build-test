@@ -47,7 +47,8 @@
       "gatekeeperAssess": false,
       "entitlements": "./entitlements.mac.plist",
       "entitlementsInherit": "./entitlements.mac.plist",
-      "identity": "IAMNEO EDUTECH PRIVATE LIMITED (KZU7TTFTCD)"
+      "identity": "IAMNEO EDUTECH PRIVATE LIMITED (KZU7TTFTCD)",
+      "notarize": false
     },
     "afterSign": "./scripts/notarize.js"
   },
