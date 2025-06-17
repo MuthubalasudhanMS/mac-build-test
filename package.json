@@ -39,7 +39,7 @@
     },
     "mac": {
       "target": [
-        "dmg"
+        "dmg", "dir"
       ],
       "category": "public.app-category.utilities",
       "hardenedRuntime": true,
