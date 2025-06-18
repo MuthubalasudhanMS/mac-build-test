@@ -13,7 +13,7 @@
     "dist": "electron-builder -w -l",
     "dist-win": "electron-builder --win --x64",
     "dist-linux": "electron-builder --linux",
-    "dist-mac": "electron-builder --mac"
+    "dist-mac": "electron-builder --mac --publish always"
   },
   "build": {
     "appId": "com.example.localupdate",
