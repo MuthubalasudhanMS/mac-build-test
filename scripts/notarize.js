@@ -7,7 +7,7 @@ exports.default = async function notarizeApp(context) {
   
   if (electronPlatformName !== 'darwin') return;
 
-  if (!process.env.APPLE_ID || !process.env.APPLE_APP_SPECIFIC_PASSWORD || !process.env.ASC_PROVIDER) {
+  if (!process.env.APPLE_ID || !process.env.APPLE_APP_SPECIFIC_PASSWORD || !process.env.ASC_PROVIDER || !process.env.APPLE_TEAM_ID) {
     console.warn("Missing Apple notarization credentials. Skipping notarization.");
     return;
   }
